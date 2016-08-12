@@ -1,0 +1,29 @@
+---
+# tasks file for test-role
+
+- name: Create Vagrant Group
+  group:
+    name: vagrant
+    state: present
+
+- name: Create Vagrant User
+  user:
+    name: vagrant
+    state: present
+
+- name: Create file on centos
+  copy:
+    content: '{{ ansible_os_family|lower }}'
+    dest: /tmp/distrib
+    owner: vagrant
+    group: vagrant
+    mode: '0644'
+
+- name: Create conditional
+  copy:
+    content: '{{ playbook_var }}'
+    dest: /tmp/conditional
+    owner: vagrant
+    group: vagrant
+    mode: '0644'
+  when: ansible_os_family|lower == 'debian'

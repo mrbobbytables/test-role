@@ -1,0 +1,12 @@
+---
+
+- name: test
+  hosts: all
+  connection: local
+  gather_facts: true
+  roles: 
+    - 'test-role'
+  tags:
+   - 'test'
+  vars:
+    playbook_var: test2

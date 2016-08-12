@@ -1,0 +1,48 @@
+---
+
+driver:
+  name: vagrant
+  vagrantfile_erb: Vagrantfile_local.erb
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  role_name: test-role
+  sudo_command: sudo -E -H
+  require_ansible_repo: false
+  require_ansible_source: true
+  require_ansible_omnibus: true
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_verbose: false
+  ansible_verbosity: warn
+  idempotency_test: false
+
+platforms:
+  - name: centos-7
+    driver_config:
+      box: bento/centos-7.2
+      box_url: https://atlas.hashicorp.com/bento/boxes/centos-7.2
+  - name: debian-8
+    driver_config:
+      box: bento/debian-8.5
+      box_url: https://atlas.hashicorp.com/bento/debian-8.5
+  - name: ubuntu-1604
+    driver_config:
+      box: bento/ubuntu-16.04
+      box_url: https://atlas.hashicorp.com/bento/ubuntu-16.04
+
+verifier:
+  name: shell
+
+suites:
+  - name: test-1
+    provisioner:
+      playbook: tests/vagrant/test-1.yml
+    verifier:
+      command: PLAYBOOK=tests/vagrant/test-1.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+  - name: test-2
+    provisioner:
+      playbook: tests/vagrant/test-2.yml
+    verifier:
+      command: PLAYBOOK=tests/vagrant/test-2.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb

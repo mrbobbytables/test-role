@@ -1,0 +1,60 @@
+---
+
+driver:
+  name: ec2
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
+  security_group_ids: [ "<%= ENV['AWS_SGROUP_ID'] %>" ]
+  region: <%= ENV['AWS_REGION'] %>
+  availability_zone: <% ENV['AWS_AVAILABILITY_ZONE'] %>
+  instance_type: <%= ENV['AWS_INSTANCE_TYPE'] || 't2.micro' %>
+  associate_public_ip: true
+  require_chef_omnibus: false
+
+transport:
+  ssh_key: <%= ENV['KITCHEN_SSH_KEY'] %>
+  connection_timeout: 60
+  connection_retries: 10
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  role_name: test-role
+  sudo_command: sudo -E -H
+  require_ansible_repo: false
+  require_ansible_source: true
+  require_ansible_omnibus: true
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_verbose: true
+  ansible_verbosity: warn
+  idempotency_test: true
+
+
+# Default for centos-7 image is to persist the root volume.
+# The below overrides that.
+platforms:
+  - name: centos-7
+    driver:
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_type: standard
+            volume_size: 8
+            delete_on_termination: true
+  - name: debian-8
+  - name: ubuntu-16.04
+
+verifier:
+  name: shell
+
+suites:
+  - name: test-1
+    provisioner:
+      playbook: tests/cloud/test-1.yml
+    verifier:
+      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+  - name: test-2
+    provisioner:
+      playbook: tests/cloud/test-2.yml
+    verifier:
+      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
