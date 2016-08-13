@@ -12,9 +12,9 @@ driver:
 
 transport:
   ssh_key: <%= ENV['KITCHEN_SSH_KEY'] %>
-  connection_timeout: 300
+  connection_timeout: 60
   connection_retries: 10
-  max_ssh_sessions: 2
+  max_ssh_sessions: 7
 
 provisioner:
   name: ansible_playbook
