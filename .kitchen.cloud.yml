@@ -14,6 +14,7 @@ transport:
   ssh_key: <%= ENV['KITCHEN_SSH_KEY'] %>
   connection_timeout: 300
   connection_retries: 10
+  max_ssh_sessions: 2
 
 provisioner:
   name: ansible_playbook
@@ -34,8 +35,6 @@ provisioner:
 # The below overrides that.
 platforms:
   - name: centos-7
-    transport:
-      max_ssh_sessions: 2
     driver:
       block_device_mappings:
         - device_name: /dev/sda1
