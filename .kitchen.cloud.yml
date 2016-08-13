@@ -12,7 +12,7 @@ driver:
 
 transport:
   ssh_key: <%= ENV['KITCHEN_SSH_KEY'] %>
-  connection_timeout: 60
+  connection_timeout: 300
   connection_retries: 10
 
 provisioner:
@@ -34,6 +34,8 @@ provisioner:
 # The below overrides that.
 platforms:
   - name: centos-7
+    transport:
+      max_ssh_sessions: 2
     driver:
       block_device_mappings:
         - device_name: /dev/sda1
@@ -52,9 +54,9 @@ suites:
     provisioner:
       playbook: tests/cloud/test-1.yml
     verifier:
-      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> PLAYBOOK=tests/cloud/test-1.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
   - name: test-2
     provisioner:
       playbook: tests/cloud/test-2.yml
     verifier:
-      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+      command: KITCHEN_SSH_KEY=<%= ENV['KITCHEN_SSH_KEY'] %> PLAYBOOK=tests/cloud/test-2.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb

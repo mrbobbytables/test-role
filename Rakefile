@@ -70,13 +70,14 @@ namespace :integration do
     task :cloud do
       @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.cloud.yml')
       config = Kitchen::Config.new(loader: @loader)
-      concurrency = (ENV['concurrency'] || '10').to_i
+      concurrency = (ENV['concurrency'] || '4').to_i
       task_runner(config, '.*', 'test', concurrency)
     end
 
     namespace :cloud do
       @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.cloud.yml')
       config = Kitchen::Config.new(loader: @loader)
+      concurrency = (ENV['concurrency'] || '8').to_i
 
       desc 'Execute test suite 1'
       task :'task-1' do
