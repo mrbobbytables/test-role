@@ -30,6 +30,7 @@ set :ssh_options, options
 set :env, LANG: 'C', LC_ALL: 'C'
 
 RSpec.configure do |c|
+  c.failure_exit_code = ENV['RSPEC_FAILURE_EXIT_CODE'] || 1
   if ENV['RSPEC_FORMAT'] == 'junit'
     c.output_stream = File.open("#{ENV['KITCHEN_INSTANCE']}.junit.xml", 'w')
     c.formatter = 'JUnit'
