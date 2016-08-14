@@ -18,6 +18,9 @@ provisioner:
   ansible_verbosity: warn
   idempotency_test: false
 
+transport:
+  max_ssh_sessions: 4
+
 platforms:
   - name: centos-7
     driver_config:
