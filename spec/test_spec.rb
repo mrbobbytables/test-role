@@ -2,8 +2,8 @@ require 'serverspec'
 require 'spec_helper'
 
 
-describe 'TEST ROLE' do
-  context host_inventory['hostname'] do
+context ENV['KITCHEN_INSTANCE'] || host_inventory['hostname'] do
+  describe 'TEST ROLE' do
     describe file('/tmp/distrib') do
       it { should exist }
       it { should be_owned_by 'vagrant' }
