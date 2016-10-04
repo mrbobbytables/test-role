@@ -11,7 +11,7 @@
     name: vagrant
     state: present
 
-- name: Create file on centos
+- name: Create file
   copy:
     content: '{{ ansible_os_family|lower }}'
     dest: /tmp/distrib
@@ -19,7 +19,7 @@
     group: vagrant
     mode: '0644'
 
-- name: Create conditional
+- name: Create conditional file
   copy:
     content: '{{ playbook_var }}'
     dest: /tmp/conditional
@@ -27,3 +27,7 @@
     group: vagrant
     mode: '0644'
   when: ansible_os_family|lower == 'debian'
+
+
+
+
