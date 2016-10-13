@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :test do
-  gem 'deep_merge', require: 'deep_merge/rails_compat'
+  gem 'deep_merge'
   gem 'kitchen-ansible'
   gem 'kitchen-ec2'
   gem 'kitchen-vagrant'

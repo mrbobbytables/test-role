@@ -30,6 +30,7 @@ set :ssh_options, options
 set :env, LANG: 'C', LC_ALL: 'C'
 
 RSpec.configure do |c|
+  c.disable_monkey_patching!
   c.failure_exit_code = ENV['RSPEC_FAILURE_EXIT_CODE'] || 1
   if ENV['RSPEC_FORMATTER']
     if ENV['RSPEC_FORMATTER'].casecmp('junit').zero?

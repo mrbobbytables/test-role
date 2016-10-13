@@ -43,9 +43,9 @@ suites:
     provisioner:
       playbook: tests/vagrant/test-1.yml
     verifier:
-      command: PLAYBOOK=tests/vagrant/test-1.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+      command: PLAYBOOK=tests/vagrant/test-1.yml bundle exec rspec -c -f d -I serverspec
   - name: test-2
     provisioner:
       playbook: tests/vagrant/test-2.yml
     verifier:
-      command: PLAYBOOK=tests/vagrant/test-2.yml bundle exec rspec -c -f d -I serverspec spec/test_spec.rb
+      command: PLAYBOOK=tests/vagrant/test-2.yml bundle exec rspec -c -f d -I serverspec
