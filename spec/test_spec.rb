@@ -1,7 +1,7 @@
 require 'serverspec'
 require 'spec_helper'
 
-context ENV['KITCHEN_INSTANCE'] || host_inventory['hostname'] do
+RSpec.describe ENV['KITCHEN_INSTANCE'] || host_inventory['hostname'] do
   describe 'TEST ROLE' do
     describe file('/tmp/distrib') do
       it { should exist }

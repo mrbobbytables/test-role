@@ -1,0 +1,95 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowDecodeErrors",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags",
+                "ec2:Describe*",
+                "sts:DecodeAuthorizationMessage"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "NonResourceBasedReadOnlyPermissions",
+            "Action": [
+                "ec2:Describe*",
+                "ec2:CreateKeyPair",
+                "ec2:CreateSecurityGroup",
+                "iam:GetInstanceProfiles",
+                "iam:ListInstanceProfiles"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "IAMPassRoleToInstance",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:iam::<account-id>:role/<kitchen-role-id>"
+        },
+        {
+            "Sid": "AllowInstanceActions",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*"
+            ],
+            "Resource": "arn:aws:ec2:<region>:<account-id>:instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:InstanceProfile": "arn:aws:iam::<account-id>:instance-profile/<kitchen-role-id>"
+                }
+            }
+        },
+        {
+            "Sid": "EC2RunInstancesSubnet",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "arn:aws:ec2:<region>:<account-id>:subnet/*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:vpc": "arn:aws:ec2:<region>:<account-id>:vpc/<vpc-id>"
+                }
+            }
+        },
+        {
+            "Sid": "RemainingRunInstancePermissions",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": [
+                "arn:aws:ec2:<region>:<account-id>:volume/*",
+                "arn:aws:ec2:<region>::image/*",
+                "arn:aws:ec2:<region>::snapshot/*",
+                "arn:aws:ec2:<region>:<account-id>:network-interface/*",
+                "arn:aws:ec2:<region>:<account-id>:key-pair/*",
+                "arn:aws:ec2:<region>:<account-id>:security-group/*"
+            ]
+        },
+        {
+            "Sid": "EC2VpcNonresourceSpecificActions",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteNetworkAcl",
+                "ec2:DeleteNetworkAclEntry",
+                "ec2:DeleteRoute",
+                "ec2:DeleteRouteTable",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:DeleteSecurityGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:vpc": "arn:aws:ec2:<region>:<account-id>:vpc/<vpc-id>"
+                }
+            }
+        }
+    ]
+}
