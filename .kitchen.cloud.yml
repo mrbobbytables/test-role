@@ -22,7 +22,7 @@ provisioner:
   role_name: test-role
   sudo_command: sudo -E -H
   require_ansible_repo: false
-  require_ansible_source: true
+  require_ansible_source: false
   require_ansible_omnibus: true
   require_chef_for_busser: false
   require_ruby_for_busser: false
