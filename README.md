@@ -1,7 +1,9 @@
-Role Name
+Example Integration Test Role
 =========
 
-A brief description of the role goes here.
+
+
+[![Build Status](https://travis-ci.org/mrbobbytables/test-role.svg?branch=master)](https://travis-ci.org/mrbobbytables/test-role)
 
 Requirements
 ------------
