@@ -16,6 +16,6 @@ before_install:
   -in provision.key.enc -out provision.key -d
 - bundle install
 script:
-- travis_wait bundle exec rake integration:cloud
+- bundle exec rake integration:cloud
 after_script:
 - bundle exec rake integration:cloud:sgroup-destroy
